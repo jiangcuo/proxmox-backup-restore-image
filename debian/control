@@ -1,0 +1,34 @@
+Source: proxmox-restore-vm-data
+Section: admin
+Priority: optional
+Maintainer: Proxmox Support Team <support@proxmox.com>
+Build-Depends: asciidoc-base,
+               automake,
+               bc,
+               bison,
+               cpio,
+               debhelper (>= 10~),
+               dh-python,
+               flex,
+               gcc (>= 8.3.0-6),
+               git,
+               libdw-dev,
+               libelf-dev,
+               libtool,
+               lintian,
+               perl-modules,
+               python-minimal,
+               sed,
+               sphinx-common,
+               tar,
+               xmlto,
+               zlib1g-dev,
+Standards-Version: 4.5.1
+Homepage: https://www.proxmox.com
+
+Package: proxmox-restore-vm-data
+Architecture: amd64
+Recommends: proxmox-file-restore
+Description: VM kernel/initramfs images for PBS single file restore
+ Preconfigured images used as base for single file restore of PBS backup
+ snapshots. Useless on their own, use together with proxmox-file-restore.

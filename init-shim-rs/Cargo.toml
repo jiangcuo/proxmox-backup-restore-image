@@ -1,0 +1,9 @@
+[package]
+name = "init-shim-rs"
+version = "1.0.0"
+authors = ["Stefan Reiter <s.reiter@proxmox.com>"]
+edition = "2018"
+
+[dependencies]
+anyhow = "1.0"
+nix = "0.19"

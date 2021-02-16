@@ -1,0 +1,26 @@
+From 2c972569ef5b641846773bee3b3a0191ba66165e Mon Sep 17 00:00:00 2001
+From: Stefan Reiter <s.reiter@proxmox.com>
+Date: Tue, 16 Feb 2021 17:14:41 +0100
+Subject: [PATCH] FIXUP: syntax error in Ubuntu Sauce
+
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+ include/linux/audit.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/audit.h b/include/linux/audit.h
+index 55cc03c1bed8..8f84c9503827 100644
+--- a/include/linux/audit.h
++++ b/include/linux/audit.h
+@@ -253,7 +253,7 @@ static inline void audit_log_path_denied(int type, const char *operation)
+ static inline void audit_log_lsm(struct lsmblob *blob, bool exiting)
+ { }
+ static inline int audit_log_task_context(struct audit_buffer *ab,
+-					 struct lsmblob *blob);
++					 struct lsmblob *blob)
+ {
+ 	return 0;
+ }
+-- 
+2.20.1
+

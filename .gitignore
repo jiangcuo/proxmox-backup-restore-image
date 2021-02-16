@@ -1,0 +1,9 @@
+build/
+init-shim-rs/target/
+
+*.deb
+*.dsc
+*.buildinfo
+*.changes
+*.prepared
+*.tar.gz

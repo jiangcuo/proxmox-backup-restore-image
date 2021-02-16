@@ -1,0 +1,2 @@
+bzImage /usr/lib/x86_64-linux-gnu/proxmox-backup/file-restore/
+initramfs/initramfs.img /usr/lib/x86_64-linux-gnu/proxmox-backup/file-restore/

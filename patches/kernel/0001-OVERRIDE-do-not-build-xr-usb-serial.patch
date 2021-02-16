@@ -1,0 +1,30 @@
+From 4cf77185b43a29ad2d70749648cac83330030cf9 Mon Sep 17 00:00:00 2001
+From: Stefan Reiter <s.reiter@proxmox.com>
+Date: Tue, 17 Nov 2020 14:42:52 +0100
+Subject: [PATCH] OVERRIDE: do not build xr-usb-serial
+
+We don't have USB support in the kernel, so this will fail - and for
+some reason there's no Kconfig setting for this...
+
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+ ubuntu/Makefile | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/ubuntu/Makefile b/ubuntu/Makefile
+index 67c6d5b98b53..6e7264845b66 100644
+--- a/ubuntu/Makefile
++++ b/ubuntu/Makefile
+@@ -19,9 +19,6 @@ obj-$(CONFIG_HIO)             += hio/
+ ##
+ ##
+ ##
+-ifeq ($(ARCH),x86)
+-obj-y				+= xr-usb-serial/
+-endif
+ ##
+ ##
+ ##
+-- 
+2.20.1
+
