@@ -1,4 +1,4 @@
-proxmox-restore-vm-data (1.0.0-1) pbs; urgency=medium
+proxmox-restore-vm-data (0.1.0-1) pbs; urgency=medium
 
   * initial release
 
