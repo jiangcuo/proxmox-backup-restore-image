@@ -1,1 +1,1 @@
-activate-noawait pbs-file-restore-initramfs
+activate-noawait proxmox-backup-restore-image-update

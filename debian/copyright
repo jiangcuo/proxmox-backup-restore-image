@@ -1,4 +1,4 @@
-Copyright (C) 2020 Proxmox Server Solutions GmbH
+Copyright (C) 2020 - 2021 Proxmox Server Solutions GmbH
 
 This package contains a version of a linux kernel binary image (including
 patches by Ubuntu/Canonical and Proxmox) with built-in ZFS support.
@@ -18,5 +18,4 @@ The initramfs also contains a rust binary as /init, built from 'init-shim-rs'
 available in this package's sources. This binary is released under the terms of
 the AGPLv3 by Proxmox Server Solutions GmbH.
 
-This package was put together by Proxmox Server Solutions GmbH
-<support@proxmox.com>.
+Packaging: Proxmox Server Solutions GmbH <support@proxmox.com>

@@ -1,6 +1,6 @@
 [submodule "submodules/zfsonlinux"]
-	path = submodules/zfsonlinux
+	path = src/submodules/zfsonlinux
 	url = git://git.proxmox.com/git/mirror_zfs.git
 [submodule "submodules/ubuntu-hirsute"]
-	path = submodules/ubuntu-hirsute
+	path = src/submodules/ubuntu-hirsute
 	url = git://git.proxmox.com/git/mirror_ubuntu-hirsute-kernel.git
