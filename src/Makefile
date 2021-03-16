@@ -19,7 +19,7 @@ all: ${KERNEL_IMG} ${INITRAMFS_IMG}
 ${BUILDDIR}.prepared: ${CONFIG}
 	rm -rf ${BUILDDIR}
 	mkdir -p ${BUILDDIR}
-	cp -a submodules debian patches ${BUILDDIR}/
+	cp -a submodules patches ${BUILDDIR}/
 	cp ${CONFIG} ${BUILDDIR}/${KERNEL_SUBMODULE}
 	cd ${BUILDDIR}/${KERNEL_SUBMODULE}; \
 	    for p in ../../patches/kernel/*.patch; do \
@@ -60,8 +60,8 @@ test-run: ${KERNEL_IMG} ${INITRAMFS_IMG}
 	# included in the initramfs, but it can be used to test the
 	# kernel/init-shim-rs builds
 	qemu-system-x86_64 -serial stdio -vnc none -enable-kvm \
-	    -kernel ${BUILDDIR}/${KERNEL_IMG} \
-	    -initrd build/initramfs/initramfs.img
+	    -kernel ${KERNEL_IMG} \
+	    -initrd ${INITRAMFS_IMG}
 
 .PHONY: clean
 clean:
