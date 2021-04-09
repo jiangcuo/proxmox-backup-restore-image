@@ -1,4 +1,12 @@
-proxmox-backup-restore-image (0.1.0-1) pbs; urgency=medium
+proxmox-backup-restore-image (0.2.0) stable; urgency=medium
+
+  * update kernel to 5.11.12
+
+  * update ibssl1.1 to 1.1.1d-0+deb10u6
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 09 Apr 2021 15:02:18 +0200
+
+proxmox-backup-restore-image (0.1.0) stable; urgency=medium
 
   * initial release
 
