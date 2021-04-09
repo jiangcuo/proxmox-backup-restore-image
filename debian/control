@@ -30,7 +30,7 @@ Homepage: https://www.proxmox.com
 Package: proxmox-backup-restore-image
 Architecture: amd64
 Recommends: proxmox-backup-file-restore
-Description: Kernel/initramfs images for Proxmox Backup single file restore.
- Preconfigured images used as base for single file restore of PBS backup
- snapshots. Not really useful on their own, so best used together with
- proxmox-file-restore.
+Description: Kernel/initramfs images for Proxmox Backup single-file restore.
+ Preconfigured images used as base for single file restore of Proxmox Backup
+ Server snapshots. Not really useful on their own, so best used together with
+ the proxmox-backup-file-restore package, which provide the actual tools.
