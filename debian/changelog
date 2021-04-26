@@ -1,3 +1,10 @@
+proxmox-backup-restore-image (0.2.1) stable; urgency=medium
+
+  * reduce maximal VSock packet size do improve memory usage, 25 Gbps is still
+    enough for our usecase
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 26 Apr 2021 18:48:41 +0200
+
 proxmox-backup-restore-image (0.2.0) stable; urgency=medium
 
   * update kernel to 5.11.12
