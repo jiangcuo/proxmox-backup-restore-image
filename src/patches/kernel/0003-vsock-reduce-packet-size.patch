@@ -1,0 +1,36 @@
+From a437d428733881f408b5d42eb75812600083cb75 Mon Sep 17 00:00:00 2001
+From: Stefan Reiter <s.reiter@proxmox.com>
+Date: Mon, 26 Apr 2021 14:08:36 +0200
+Subject: [PATCH] vsock: reduce packet size
+
+Reduce the maximum packet size to avoid allocation errors in VMs with
+very little memory available (since the buffer needs a contiguous
+block of memory, which can get rare for 64kB blocks).
+
+4kB used to be the default, and according to [0] increasing it makes
+the difference between ~25Gb/s and ~40Gb/s - certainly a lot faster,
+but both within the realm of unreachable for our restore scenario.
+
+[0] https://stefano-garzarella.github.io/posts/2019-11-08-kvmforum-2019-vsock/
+
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+ include/linux/virtio_vsock.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/virtio_vsock.h b/include/linux/virtio_vsock.h
+index dc636b727179..18c09ff72929 100644
+--- a/include/linux/virtio_vsock.h
++++ b/include/linux/virtio_vsock.h
+@@ -9,7 +9,7 @@
+ 
+ #define VIRTIO_VSOCK_DEFAULT_RX_BUF_SIZE	(1024 * 4)
+ #define VIRTIO_VSOCK_MAX_BUF_SIZE		0xFFFFFFFFUL
+-#define VIRTIO_VSOCK_MAX_PKT_BUF_SIZE		(1024 * 64)
++#define VIRTIO_VSOCK_MAX_PKT_BUF_SIZE		(1024 * 4)
+ 
+ enum {
+ 	VSOCK_VQ_RX     = 0, /* for host to guest data */
+-- 
+2.20.1
+
