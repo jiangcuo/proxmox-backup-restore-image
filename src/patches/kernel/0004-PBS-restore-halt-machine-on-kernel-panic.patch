@@ -1,0 +1,32 @@
+From 7222e7424aab957f63b98853ea9fb30eec83666e Mon Sep 17 00:00:00 2001
+From: Stefan Reiter <s.reiter@proxmox.com>
+Date: Mon, 3 May 2021 11:13:10 +0200
+Subject: [PATCH] PBS-restore: halt machine on kernel panic
+
+Otherwise we might get into a loop where the user-space watchdog never
+has time to start, and thus the VM will run forever. Still not an idea
+options, since the kernel might hang and not panic, but better than
+nothing, and at least solves the out-of-memory forever looping.
+
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+ kernel/panic.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 332736a72a58..56339ae5165c 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -325,6 +325,9 @@ void panic(const char *fmt, ...)
+ 		}
+ 	}
+ 	if (panic_timeout != 0) {
++		/* PBS restore: stop machine on panic, let host deal with it */
++		machine_power_off();
++
+ 		/*
+ 		 * This will not be a clean reboot, with everything
+ 		 * shutting down.  But if there is a chance of
+-- 
+2.20.1
+
