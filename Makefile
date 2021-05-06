@@ -2,11 +2,14 @@ include /usr/share/dpkg/pkg-info.mk
 include /usr/share/dpkg/architecture.mk
 
 PACKAGE=proxmox-backup-restore-image
+PACKAGE_DBG=proxmox-backup-restore-image-debug
 
 BUILDDIR=${PACKAGE}-${DEB_VERSION_UPSTREAM_REVISION}
 
 DEB=${PACKAGE}_${DEB_VERSION}_${DEB_BUILD_ARCH}.deb
 DSC=${PACKAGE}_${DEB_VERSION}.dsc
+DEB_DBG=${PACKAGE_DBG}_${DEB_VERSION}_${DEB_BUILD_ARCH}.deb
+DSC_DBG=${PACKAGE_DBG}_${DEB_VERSION}.dsc
 
 all: deb
 
@@ -32,21 +35,23 @@ ${BUILDDIR}: submodules.prepared
 deb: ${DEB}
 ${DEB}: ${BUILDDIR}
 	cd ${BUILDDIR}; dpkg-buildpackage -b -us -uc
-	lintian ${DEB}
+	lintian ${DEB} ${DEB_DBG}
+${DEB_DBG}: ${DEB}
 
 .PHONY: dsc
 dsc: ${DSC}
 ${DSC}: ${BUILDDIR}
 	cd ${BUILDDIR}; dpkg-buildpackage -S -us -uc -d
-	lintian ${DSC}
+	lintian ${DSC} ${DSC_DBG}
+${DSC_DBG}: ${DSC}
 
 .PHONY: dinstall
 dinstall: deb
-	dpkg -i ${DEB}
+	dpkg -i ${DEB} ${DEB_DBG}
 
 .PHONY: upload
 upload: ${DEB}
-	tar cf - ${DEB} | ssh -X repoman@repo.proxmox.com upload --product pbs,pve --dist buster
+	tar cf - ${DEB} ${DEB_DBG} | ssh -X repoman@repo.proxmox.com upload --product pbs,pve --dist buster
 
 .PHONY: clean
 clean:

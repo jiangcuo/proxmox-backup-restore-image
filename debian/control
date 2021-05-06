@@ -2,7 +2,8 @@ Source: proxmox-backup-restore-image
 Section: admin
 Priority: optional
 Maintainer: Proxmox Support Team <support@proxmox.com>
-Build-Depends: asciidoc-base,
+Build-Depends: apt-rdepends,
+               asciidoc-base,
                automake,
                bc,
                bison,
@@ -34,3 +35,10 @@ Description: Kernel/initramfs images for Proxmox Backup single-file restore.
  Preconfigured images used as base for single file restore of Proxmox Backup
  Server snapshots. Not really useful on their own, so best used together with
  the proxmox-backup-file-restore package, which provide the actual tools.
+
+Package: proxmox-backup-restore-image-debug
+Architecture: amd64
+Depends: proxmox-backup-restore-image
+Description: Debug initramfs image for Proxmox Backup single-file restore.
+ Not required for production use, only useful for manual inspection of file
+ restore VMs. Includes busybox and gdb.

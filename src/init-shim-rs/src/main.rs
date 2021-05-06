@@ -1,6 +1,8 @@
-use anyhow::Error;
+use anyhow::{bail, Error};
 use std::ffi::CStr;
 use std::fs;
+use std::path::PathBuf;
+use std::process::Command;
 
 const URANDOM_MAJ: u64 = 1;
 const URANDOM_MIN: u64 = 9;
@@ -21,15 +23,54 @@ fn main() {
         do_mknod("/dev/urandom", URANDOM_MAJ, URANDOM_MIN)
     });
 
+    if let Err(err) = run_agetty() {
+        // not fatal
+        println!("[init-shim] debug: agetty start failed: {}", err);
+    }
+
     let uptime = read_uptime();
     println!("[init-shim] reached daemon start after {:.2}s", uptime);
 
     do_run("/proxmox-restore-daemon");
 }
 
+fn run_agetty() -> Result<(), Error> {
+    use nix::unistd::{fork, ForkResult};
+
+    if !PathBuf::from("/sbin/agetty").exists() {
+        bail!("/sbin/agetty not found, probably not running debug mode and safe to ignore");
+    }
+
+    if !PathBuf::from("/sys/class/tty/ttyS1/device/driver/serial8250").exists() {
+        bail!("ttyS1 device does not exist or is not a 8250");
+    }
+
+    let dev = fs::read_to_string("/sys/class/tty/ttyS1/dev")?;
+    let (tty_maj, tty_min) = dev.trim().split_at(dev.find(':').unwrap_or(1));
+    do_mknod("/dev/ttyS1", tty_maj.parse()?, tty_min[1..].parse()?)?;
+
+    match unsafe { fork() } {
+        Ok(ForkResult::Parent { .. }) => {}
+        Ok(ForkResult::Child) => loop {
+            // continue to restart agetty if it exits, this runs in a forked process
+            println!("[init-shim] Spawning new agetty");
+            let res = Command::new("/sbin/agetty")
+                .args(&["-a", "root", "-l", "/bin/busybox", "-o", "sh", "115200", "ttyS1"])
+                .spawn()
+                .unwrap()
+                .wait()
+                .unwrap();
+            println!("[init-shim] agetty exited: {}", res.code().unwrap_or(-1));
+        },
+        Err(err) => println!("fork failed: {}", err),
+    }
+
+    Ok(())
+}
+
 fn do_mount(target: &str, fstype: &str) -> Result<(), Error> {
     use nix::mount::{mount, MsFlags};
-    fs::create_dir(target)?;
+    fs::create_dir_all(target)?;
     let none_type: Option<&CStr> = None;
     mount(
         none_type,
@@ -63,7 +104,6 @@ fn read_uptime() -> f32 {
 
 fn do_run(cmd: &str) -> ! {
     use std::io::ErrorKind;
-    use std::process::Command;
 
     let spawn_res = Command::new(cmd).env("RUST_BACKTRACE", "1").spawn();
 

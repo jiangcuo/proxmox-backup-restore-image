@@ -9,12 +9,13 @@ SHIM_DIR=init-shim-rs
 
 KERNEL_IMG=${BUILDDIR}/bzImage
 INITRAMFS_IMG=${INITRAMFS_BUILDDIR}/initramfs.img
+INITRAMFS_IMG_DBG=${INITRAMFS_BUILDDIR}/initramfs-debug.img
 
 CONFIG=config-base
 
 RUST_SRC=$(wildcard ${SHIM_DIR}/**/*.rs) ${SHIM_DIR}/Cargo.toml
 
-all: ${KERNEL_IMG} ${INITRAMFS_IMG}
+all: ${KERNEL_IMG} ${INITRAMFS_IMG_DBG}
 
 ${BUILDDIR}.prepared: ${CONFIG}
 	rm -rf ${BUILDDIR}
@@ -53,6 +54,8 @@ ${KERNEL_IMG}: zfs.prepared
 ${INITRAMFS_IMG}: ${BUILDDIR}.prepared ${RUST_SRC} build_initramfs.sh
 	cd ${SHIM_DIR}; cargo build --release
 	sh build_initramfs.sh
+
+${INITRAMFS_IMG_DBG}: ${INITRAMFS_IMG}
 
 .PHONY: test-run
 test-run: ${KERNEL_IMG} ${INITRAMFS_IMG}
