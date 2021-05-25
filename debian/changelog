@@ -1,3 +1,11 @@
+proxmox-backup-restore-image (0.2.2) stable; urgency=medium
+
+  * add debug initramfs as separate package
+
+  * update kernel to 5.11.17
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 25 May 2021 13:48:37 +0200
+
 proxmox-backup-restore-image (0.2.1) stable; urgency=medium
 
   * reduce maximal VSock packet size do improve memory usage, 25 Gbps is still
