@@ -1,3 +1,10 @@
+proxmox-backup-restore-image (0.2.3) stable; urgency=medium
+
+  * XFS: enable legacy V4 support for kernel image allowing one to restore
+    older XFS setups
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 10 Jun 2021 13:11:01 +0200
+
 proxmox-backup-restore-image (0.2.2) stable; urgency=medium
 
   * add debug initramfs as separate package
