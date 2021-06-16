@@ -6,6 +6,10 @@ use std::process::Command;
 
 const URANDOM_MAJ: u64 = 1;
 const URANDOM_MIN: u64 = 9;
+const ZFS_MAJ: u64 = 10;
+const ZFS_MIN: u64 = 249;
+const NULL_MAJ: u64 = 1;
+const NULL_MIN: u64 = 3;
 
 /// Set up a somewhat normal linux userspace environment before starting the restore daemon, and
 /// provide error messages to the user if doing so fails.
@@ -21,6 +25,12 @@ fn main() {
     // make device nodes required by daemon
     wrap_err("mknod /dev/urandom", || {
         do_mknod("/dev/urandom", URANDOM_MAJ, URANDOM_MIN)
+    });
+    wrap_err("mknod /dev/zfs", || {
+        do_mknod("/dev/zfs", ZFS_MAJ, ZFS_MIN)
+    });
+    wrap_err("mknod /dev/null", || {
+        do_mknod("/dev/null", NULL_MAJ, NULL_MIN)
     });
 
     if let Err(err) = run_agetty() {

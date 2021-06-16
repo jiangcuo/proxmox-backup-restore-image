@@ -11,6 +11,8 @@ KERNEL_IMG=${BUILDDIR}/bzImage
 INITRAMFS_IMG=${INITRAMFS_BUILDDIR}/initramfs.img
 INITRAMFS_IMG_DBG=${INITRAMFS_BUILDDIR}/initramfs-debug.img
 
+ZFS_TOOLS=${BUILDDIR}/zfstools
+
 CONFIG=config-base
 
 RUST_SRC=$(wildcard ${SHIM_DIR}/**/*.rs) ${SHIM_DIR}/Cargo.toml
@@ -36,6 +38,10 @@ kernel.prepared: ${BUILDDIR}.prepared
 
 zfs.prepared: kernel.prepared
 	cd ${BUILDDIR}/${ZFSONLINUX_SUBMODULE}; \
+	    for p in ../../patches/zfs/*.patch; do \
+	        patch -Np1 < $$p; \
+	    done
+	cd ${BUILDDIR}/${ZFSONLINUX_SUBMODULE}; \
 	    sh autogen.sh && \
 	    ./configure \
 	        --enable-linux-builtin \
@@ -51,7 +57,20 @@ ${KERNEL_IMG}: zfs.prepared
 	cd ${BUILDDIR}/${KERNEL_SUBMODULE}; $(MAKE)
 	mv ${BUILDDIR}/${KERNEL_SUBMODULE}/arch/x86/boot/bzImage ${KERNEL_IMG}
 
-${INITRAMFS_IMG}: ${BUILDDIR}.prepared ${RUST_SRC} build_initramfs.sh
+${ZFS_TOOLS}: zfs.prepared
+	cd ${BUILDDIR}/${ZFSONLINUX_SUBMODULE}; \
+	    ./configure \
+	        --bindir=/usr/bin \
+	        --sbindir=/sbin \
+	        --libdir=/lib/"$(DEB_HOST_MULTIARCH)" \
+	        --with-zfsexecdir=/usr/lib/zfs-linux \
+	        --disable-systemd \
+	        --disable-pyzfs \
+	        --with-config=user
+	# absolute path required for 'make install'
+	$(MAKE) -C ${BUILDDIR}/${ZFSONLINUX_SUBMODULE} install DESTDIR=${PWD}/${ZFS_TOOLS}
+
+${INITRAMFS_IMG}: ${BUILDDIR}.prepared ${RUST_SRC} build_initramfs.sh ${ZFS_TOOLS}
 	cd ${SHIM_DIR}; cargo build --release
 	sh build_initramfs.sh
 
