@@ -1,3 +1,11 @@
+proxmox-backup-restore-image (0.3.0) stable; urgency=medium
+
+  * ship custom ZFS tools without udev requirement
+
+  * build for Proxmox VE 7 / Debian 11 Bullseye based systems
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 28 Jun 2021 12:40:43 +0200
+
 proxmox-backup-restore-image (0.2.3) stable; urgency=medium
 
   * XFS: enable legacy V4 support for kernel image allowing one to restore
