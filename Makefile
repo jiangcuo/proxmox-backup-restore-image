@@ -51,7 +51,7 @@ dinstall: deb
 
 .PHONY: upload
 upload: ${DEB}
-	tar cf - ${DEB} ${DEB_DBG} | ssh -X repoman@repo.proxmox.com upload --product pbs,pve --dist buster
+	tar cf - ${DEB} ${DEB_DBG} | ssh -X repoman@repo.proxmox.com upload --product pve --dist bullseye
 
 .PHONY: clean
 clean:
