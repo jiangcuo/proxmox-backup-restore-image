@@ -51,6 +51,12 @@ add_pkgs "
     libblkid1:amd64 \
     libuuid1:amd64 \
     zlib1g:amd64 \
+    libzstd1:amd64 \
+    liblz4-1:amd64 \
+    liblzma5:amd64 \
+    libgcrypt20:amd64 \
+    lvm2:amd64 \
+    thin-provisioning-tools:amd64 \
 "
 
 # install custom ZFS tools (built without libudev)
