@@ -1,3 +1,9 @@
+proxmox-backup-restore-image (0.3.1) stable; urgency=medium
+
+  * add LVM (thin) tooling
+
+ -- Proxmox Support Team <support@proxmox.com>  Sat, 03 Jul 2021 01:57:09 +0200
+
 proxmox-backup-restore-image (0.3.0) stable; urgency=medium
 
   * ship custom ZFS tools without udev requirement
