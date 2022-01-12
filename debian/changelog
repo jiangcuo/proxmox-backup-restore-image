@@ -1,3 +1,11 @@
+proxmox-backup-restore-image (0.4.0) stable; urgency=medium
+
+  * update kernel to Ubuntu Jammy based 5.15.74
+
+  * update ZFS to 2.1.6
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 15 Nov 2022 15:14:55 +0100
+
 proxmox-backup-restore-image (0.3.1) stable; urgency=medium
 
   * add LVM (thin) tooling
