@@ -26,9 +26,7 @@ fn main() {
     wrap_err("mknod /dev/urandom", || {
         do_mknod("/dev/urandom", URANDOM_MAJ, URANDOM_MIN)
     });
-    wrap_err("mknod /dev/zfs", || {
-        do_mknod("/dev/zfs", ZFS_MAJ, ZFS_MIN)
-    });
+    wrap_err("mknod /dev/zfs", || do_mknod("/dev/zfs", ZFS_MAJ, ZFS_MIN));
     wrap_err("mknod /dev/null", || {
         do_mknod("/dev/null", NULL_MAJ, NULL_MIN)
     });
@@ -59,13 +57,24 @@ fn run_agetty() -> Result<(), Error> {
     let (tty_maj, tty_min) = dev.trim().split_at(dev.find(':').unwrap_or(1));
     do_mknod("/dev/ttyS1", tty_maj.parse()?, tty_min[1..].parse()?)?;
 
+    let getty_args = [
+        "-a",
+        "root",
+        "-l",
+        "/bin/busybox",
+        "-o",
+        "sh",
+        "115200",
+        "ttyS1",
+    ];
+
     match unsafe { fork() } {
         Ok(ForkResult::Parent { .. }) => {}
         Ok(ForkResult::Child) => loop {
             // continue to restart agetty if it exits, this runs in a forked process
             println!("[init-shim] Spawning new agetty");
             let res = Command::new("/sbin/agetty")
-                .args(&["-a", "root", "-l", "/bin/busybox", "-o", "sh", "115200", "ttyS1"])
+                .args(&getty_args)
                 .spawn()
                 .unwrap()
                 .wait()
