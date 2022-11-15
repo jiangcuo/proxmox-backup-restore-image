@@ -49,8 +49,8 @@ fn run_agetty() -> Result<(), Error> {
         bail!("/sbin/agetty not found, probably not running debug mode and safe to ignore");
     }
 
-    if !PathBuf::from("/sys/class/tty/ttyS1/device/driver/serial8250").exists() {
-        bail!("ttyS1 device does not exist or is not a 8250");
+    if !PathBuf::from("/sys/class/tty/ttyS1").exists() {
+        bail!("ttyS1 device does not exist");
     }
 
     let dev = fs::read_to_string("/sys/class/tty/ttyS1/dev")?;
