@@ -6,4 +6,4 @@ edition = "2018"
 
 [dependencies]
 anyhow = "1.0"
-nix = "0.19"
+nix = "0.26"
