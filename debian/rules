@@ -3,5 +3,22 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+include /usr/share/dpkg/architecture.mk
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/rustc/architecture.mk
+
+export CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+export DEB_HOST_RUST_TYPE DEB_HOST_GNU_TYPE
+PATH := /usr/share/cargo/bin:$(PATH)
+
+export PATH
+
+export CARGO_HOME=$(CURDIR)/debian/cargo_home
+export DEB_CARGO_CRATE=init-shim-rs
+
 %:
 	dh $@
+
+override_dh_auto_configure:
+	cargo prepare-debian $(CARGO_HOME)/registry --link-from-system
+	dh_auto_configure

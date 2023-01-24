@@ -4,7 +4,7 @@ set -e
 
 ROOT="root"
 BUILDDIR="build/initramfs"
-INIT="../../init-shim-rs/target/release/init-shim-rs"
+INIT="../../init-shim-rs/target/x86_64-unknown-linux-gnu/release/init-shim-rs"
 
 echo "Using build dir: $BUILDDIR"
 rm -rf "$BUILDDIR"
