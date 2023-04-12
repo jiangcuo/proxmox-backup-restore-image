@@ -23,6 +23,11 @@ fn main() {
     wrap_err("mount /sys", || do_mount("/sys", "sysfs"));
     wrap_err("mount /proc", || do_mount("/proc", "proc"));
 
+    match fs::read_to_string("/proc/version") {
+        Ok(verbose_version) => println!("[init-shim] booted {verbose_version}"),
+        Err(err) => println!("[init-shim] got unexpected error on reading kernel version - {err}"),
+    }
+
     // make device nodes required by daemon
     wrap_err("mknod /dev/urandom", || {
         do_mknod("/dev/urandom", URANDOM_MAJ, URANDOM_MIN)
