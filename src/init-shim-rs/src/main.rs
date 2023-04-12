@@ -16,7 +16,8 @@ const NULL_MIN: u64 = 3;
 ///
 /// This is supposed to run as /init in an initramfs image.
 fn main() {
-    println!("[init-shim] beginning user space setup");
+    let version = get_restore_image_version();
+    println!("[init-shim] beginning user space setup, version {version}");
 
     // /dev is mounted automatically
     wrap_err("mount /sys", || do_mount("/sys", "sysfs"));
@@ -40,6 +41,13 @@ fn main() {
     println!("[init-shim] reached daemon start after {uptime:.2}s");
 
     do_run("/proxmox-restore-daemon");
+}
+
+const fn get_restore_image_version() -> &'static str {
+    match option_env!("DEB_VERSION") {
+        Some(deb_version) => deb_version,
+        None => env!("CARGO_PKG_VERSION"),
+    }
 }
 
 fn run_agetty() -> Result<(), Error> {
