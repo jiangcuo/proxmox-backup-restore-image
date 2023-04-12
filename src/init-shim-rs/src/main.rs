@@ -33,11 +33,11 @@ fn main() {
 
     if let Err(err) = run_agetty() {
         // not fatal
-        println!("[init-shim] debug: agetty start failed: {}", err);
+        println!("[init-shim] debug: agetty start failed: {err}");
     }
 
     let uptime = read_uptime();
-    println!("[init-shim] reached daemon start after {:.2}s", uptime);
+    println!("[init-shim] reached daemon start after {uptime:.2}s");
 
     do_run("/proxmox-restore-daemon");
 }
@@ -81,7 +81,7 @@ fn run_agetty() -> Result<(), Error> {
                 .unwrap();
             println!("[init-shim] agetty exited: {}", res.code().unwrap_or(-1));
         },
-        Err(err) => println!("fork failed: {}", err),
+        Err(err) => println!("fork failed: {err}"),
     }
 
     Ok(())
@@ -130,34 +130,26 @@ fn do_run(cmd: &str) -> ! {
         Ok(mut child) => {
             let res = wrap_err("wait failed", || child.wait().map_err(|e| e.into()));
             error(&format!(
-                "child process {} (pid={} exitcode={}) exited unexpectedly, check log for more info",
-                cmd,
+                "child process {cmd} (pid={} exitcode={}) exited unexpectedly, check log for more info",
                 child.id(),
                 res.code().unwrap_or(-1),
             ));
         }
         Err(err) if err.kind() == ErrorKind::NotFound => {
             error(&format!(
-                concat!(
-                    "{} missing from image.\n",
-                    "This initramfs should only be run with proxmox-file-restore!"
-                ),
-                cmd
+                "{cmd} missing from image.\nThis initramfs should only be run with proxmox-file-restore!"
             ));
         }
         Err(err) => {
-            error(&format!(
-                "unexpected error during start of {}: {}",
-                cmd, err
-            ));
+            error(&format!("unexpected error during start of {cmd}: {err}",));
         }
     }
 }
 
 fn wrap_err<R, F: FnOnce() -> Result<R, Error>>(op: &str, f: F) -> R {
     match f() {
-        Ok(r) => r,
-        Err(e) => error(&format!("operation '{}' failed: {}", op, e)),
+        Ok(result) => result,
+        Err(err) => error(&format!("operation '{op}' failed: {err}")),
     }
 }
 
@@ -172,7 +164,7 @@ fn error(msg: &str) -> ! {
     // in case a fatal error occurs we shut down the VM, there's no sense in continuing and this
     // will certainly alert whoever started us up in the first place
     let err = reboot::reboot(reboot::RebootMode::RB_POWER_OFF).unwrap_err();
-    println!("'reboot' syscall failed: {} - cannot continue", err);
+    println!("'reboot' syscall failed: {err} - cannot continue");
 
     // in case 'reboot' fails just loop forever
     loop {
