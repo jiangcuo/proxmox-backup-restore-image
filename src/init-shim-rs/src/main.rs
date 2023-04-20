@@ -37,6 +37,14 @@ fn main() {
         do_mknod("/dev/null", NULL_MAJ, NULL_MIN)
     });
 
+    // tell busybox to symlink its binaries
+    wrap_err("busybox --install -s", || {
+        Command::new("/bin/busybox")
+            .args(["--install", "-s"])
+            .spawn()?;
+        Ok(())
+    });
+
     if let Err(err) = run_agetty() {
         // not fatal
         println!("[init-shim] debug: agetty start failed: {err}");
