@@ -25,11 +25,11 @@ submodules.prepared:
 builddir: $(BUILDDIR)
 
 $(BUILDDIR): submodules.prepared
-	rm -rf $(BUILDDIR) $(BUILDDIR).tmp
+	rm -rf $@ $@.tmp
 	cd src; make clean
-	cp -a src $(BUILDDIR).tmp
-	cp -a debian $(BUILDDIR).tmp/
-	mv $(BUILDDIR).tmp $(BUILDDIR)
+	cp -a src $@.tmp
+	cp -a debian $@.tmp/
+	mv $@.tmp $@
 
 .PHONY: deb
 deb: $(DEB)
@@ -59,5 +59,6 @@ upload: $(DEB)
 
 .PHONY: clean
 clean:
+	$(MAKE) -C src $@
 	rm -rf $(PACKAGE)-[0-9]*/ *.prepared
 	rm -f $(PACKAGE)*.tar* *.deb *.dsc *.changes *.build *.buildinfo
