@@ -5,9 +5,9 @@ PACKAGE=proxmox-backup-restore-image
 PACKAGE_DBG=proxmox-backup-restore-image-debug
 
 BUILDDIR=$(PACKAGE)-$(DEB_VERSION_UPSTREAM_REVISION)
+DSC=$(PACKAGE)_$(DEB_VERSION_UPSTREAM).dsc
 
 DEB=$(PACKAGE)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).deb
-DSC=$(PACKAGE)_$(DEB_VERSION).dsc
 DEB_DBG=$(PACKAGE_DBG)_$(DEB_VERSION)_$(DEB_BUILD_ARCH).deb
 DSC_DBG=$(PACKAGE_DBG)_$(DEB_VERSION).dsc
 
@@ -39,11 +39,15 @@ $(DEB): $(BUILDDIR)
 $(DEB_DBG): $(DEB)
 
 .PHONY: dsc
-dsc: $(DSC)
+dsc: clean
+	$(MAKE) $(DSC)
+	lintian $(DSC)
+
 $(DSC): $(BUILDDIR)
 	cd $(BUILDDIR); dpkg-buildpackage -S -us -uc -d
-	lintian $(DSC) $(DSC_DBG)
-$(DSC_DBG): $(DSC)
+
+sbuild: $(DSC)
+	sbuild $<
 
 .PHONY: dinstall
 dinstall: deb
@@ -55,5 +59,5 @@ upload: $(DEB)
 
 .PHONY: clean
 clean:
-	rm -rf *~ $(BUILDDIR) $(PACKAGE)-*/ *.prepared
-	rm -f $(PACKAGE)*.tar.gz *.deb *.changes *.buildinfo *.dsc
+	rm -rf $(PACKAGE)-[0-9]*/ *.prepared
+	rm -f $(PACKAGE)*.tar* *.deb *.dsc *.changes *.build *.buildinfo
