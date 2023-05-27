@@ -29,6 +29,8 @@ $(BUILDDIR): submodules.prepared
 	cd src; make clean
 	cp -a src $@.tmp
 	cp -a debian $@.tmp/
+	rm -rf $@.tmp/pkgs
+	cd $@.tmp; DOWNLOAD_ONLY="1" ./build_initramfs.sh && mv build/initramfs/pkgs .
 	mv $@.tmp $@
 
 .PHONY: deb
