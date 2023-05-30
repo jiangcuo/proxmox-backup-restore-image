@@ -56,7 +56,8 @@ zfs.prepared: kernel.prepared $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE).prepared
 	    ./scripts/config -e CONFIG_ZFS
 	touch $@
 
-$(KERNEL_IMG): zfs.prepared
+kernel-img: $(KERNEL_IMG)
+$(KERNEL_IMG): zfs.prepared kernel.prepared
 	cd $(BUILDDIR)/$(KERNEL_SUBMODULE); $(MAKE)
 	mv $(BUILDDIR)/$(KERNEL_SUBMODULE)/arch/x86/boot/bzImage $(KERNEL_IMG)
 
