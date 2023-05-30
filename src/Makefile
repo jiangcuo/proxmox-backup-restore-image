@@ -36,11 +36,14 @@ kernel.prepared: $(BUILDDIR).prepared
 	    $(MAKE) prepare scripts
 	touch $@
 
-zfs.prepared: kernel.prepared
+$(BUILDDIR)/$(ZFSONLINUX_SUBMODULE).prepared: $(BUILDDIR).prepared
 	cd $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE); \
 	    for p in ../../patches/zfs/*.patch; do \
 	        patch -Np1 < $$p; \
 	    done
+	touch $@
+
+zfs.prepared: kernel.prepared $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE).prepared
 	cd $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE); \
 	    sh autogen.sh && \
 	    ./configure \
