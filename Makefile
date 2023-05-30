@@ -56,8 +56,9 @@ dinstall: deb
 	dpkg -i $(DEB) $(DEB_DBG)
 
 .PHONY: upload
+upload: UPLOAD_DIST ?= $(DEB_DISTRIBUTION)
 upload: $(DEB)
-	tar cf - $(DEB) $(DEB_DBG) | ssh -X repoman@repo.proxmox.com upload --product pve --dist bullseye
+	tar cf - $(DEB) $(DEB_DBG) | ssh -X repoman@repo.proxmox.com upload --product pve --dist $(UPLOAD_DIST)
 
 .PHONY: clean
 clean:
