@@ -14,7 +14,7 @@ DSC_DBG=$(PACKAGE_DBG)_$(DEB_VERSION).dsc
 all: deb
 
 ZFSONLINUX_SUBMODULE=src/submodules/zfsonlinux
-KERNEL_SUBMODULE=src/submodules/ubuntu-jammy
+KERNEL_SUBMODULE=src/submodules/ubuntu-kernel
 
 submodules.prepared:
 	git submodule update --init $(KERNEL_SUBMODULE)

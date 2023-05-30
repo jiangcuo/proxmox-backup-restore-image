@@ -4,7 +4,7 @@ BUILDDIR=build
 INITRAMFS_BUILDDIR=build/initramfs
 
 ZFSONLINUX_SUBMODULE=submodules/zfsonlinux
-KERNEL_SUBMODULE=submodules/ubuntu-jammy
+KERNEL_SUBMODULE=submodules/ubuntu-kernel
 SHIM_DIR=init-shim-rs
 
 KERNEL_IMG=$(BUILDDIR)/bzImage
