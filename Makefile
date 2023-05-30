@@ -62,5 +62,6 @@ upload: $(DEB)
 .PHONY: clean
 clean:
 	$(MAKE) -C src $@
+	$(MAKE) -C src clean-pkgs
 	rm -rf $(PACKAGE)-[0-9]*/ *.prepared
 	rm -f $(PACKAGE)*.tar* *.deb *.dsc *.changes *.build *.buildinfo
