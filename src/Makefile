@@ -26,7 +26,7 @@ $(BUILDDIR).prepared: $(CONFIG)
 	cp $(CONFIG) $(BUILDDIR)/$(KERNEL_SUBMODULE)
 	cd $(BUILDDIR)/$(KERNEL_SUBMODULE); \
 	    for p in ../../patches/kernel/*.patch; do \
-	        patch -Np1 < $$p; \
+	        echo "applying patch $$p"; patch -Np1 < $$p; \
 	    done
 	touch $@
 
