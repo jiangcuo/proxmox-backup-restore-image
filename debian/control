@@ -27,6 +27,7 @@ Build-Depends: apt-rdepends,
                python3,
                rustc,
                sphinx-common,
+               uuid-dev,
                xmlto,
                zlib1g-dev,
 Standards-Version: 4.5.1
