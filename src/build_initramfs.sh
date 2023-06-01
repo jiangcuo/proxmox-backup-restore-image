@@ -58,7 +58,7 @@ make_cpio() {
 
 if [ -z "$DOWNLOAD_ONLY" ]; then
     echo "copying init"
-    cp $INIT "$ROOT/init"
+    install --strip $INIT "$ROOT/init"
     chmod a+x "$ROOT/init" # just to be sure
 
     # tell daemon it's running in the correct environment
@@ -99,6 +99,10 @@ if [ -z "$DOWNLOAD_ONLY" ]; then
     rm -rf ${ROOT:?}/usr/local/include # header files
     rm -rf ${ROOT:?}/usr/local/share # mostly ZFS tests
     rm -f ${ROOT:?}/lib/x86_64-linux-gnu/*.a # static libraries
+    rm -f ${ROOT:?}/lib/x86_64-linux-gnu/*.la # libtool info files
+    strip -s  ${ROOT:?}/sbin/* ||true
+    strip -s  ${ROOT:?}/usr/bin/* ||true
+    strip -g ${ROOT:?}/lib/x86_64-linux-gnu/*.so.* || true
 
     make_cpio "initramfs.img"
 fi
