@@ -1,3 +1,17 @@
+proxmox-backup-restore-image (0.5.1) bookworm; urgency=medium
+
+  * build initramfs: strip (ZFS) binaries and libs after installing to reduce
+    space and memory usage
+
+  * build initramfs: switch from statically compiled BusyBox dynamically, as
+    we got the libc available anyway, and add it to base image as well
+
+  * buildsys: disable unused ZFS features during configure
+
+  * fix package pre-caching for build
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 01 Jun 2023 16:43:30 +0200
+
 proxmox-backup-restore-image (0.5.0) bookworm; urgency=medium
 
   * update kernel to Ubuntu Lunar based 6.2.16
