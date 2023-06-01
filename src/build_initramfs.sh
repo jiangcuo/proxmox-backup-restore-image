@@ -68,6 +68,7 @@ fi
 echo "getting base dependencies"
 
 add_pkgs "
+    busybox:amd64 \
     libstdc++6:amd64 \
     libssl3:amd64 \
     libacl1:amd64 \
@@ -107,7 +108,6 @@ echo "getting extra/debug dependencies"
 # add debug helpers for debug initramfs, packages from above are included too
 add_pkgs "
     util-linux:amd64 \
-    busybox-static:amd64 \
     gdb:amd64 \
     strace:amd64 \
 " 'debug'
