@@ -12,23 +12,20 @@ mkdir -p "$BUILDDIR"
 if [ -d pkgs ]; then
     echo "copying package cache into build-dir"
     cp -a pkgs "$BUILDDIR/pkgs"
-    NO_DOWNLOAD="1"
 fi
 cd "$BUILDDIR"
 mkdir "$ROOT"
 
 # adds necessary packages to initramfs build root folder
 add_pkgs() {
+    debdir=$2
+
     if [ -z "$NO_DOWNLOAD" ]; then
         DEPS=""
         for pkg in $1; do
             printf " getting reverse dependencies for '%s'" "$pkg"
             LOCAL_DEPS=$(apt-rdepends -f Depends -s Depends "$pkg" | grep -v '^ ')
-            TO_DOWNLOAD=""
-            for deb in $LOCAL_DEPS; do
-                [ ! -e "pkgs/$deb" ] && TO_DOWNLOAD="$TO_DOWNLOAD $deb"
-            done
-            [ -n "$TO_DOWNLOAD" ] && DEPS="$DEPS $TO_DOWNLOAD"
+            DEPS="$DEPS $LOCAL_DEPS"
         done
         # debconf and gcc are unnecessary, libboost-regex doesn't install on bullseye
         DEPS=$(echo "$DEPS" |\
@@ -36,20 +33,18 @@ add_pkgs() {
             sed -E 's/libboost-regex//g' |\
             sed -E 's/gcc-.{1,2}-base//g')
 
-        if [ ! -d pkgs ]; then
-            mkdir pkgs
+        if [ ! -d "pkgs/$debdir" ]; then
+            mkdir -p "pkgs/$debdir"
         fi
+
         if [ -n "$DEPS" ]; then
-            (cd pkgs; apt-get download $DEPS)
+            (cd "pkgs/$debdir"; apt-get download $DEPS)
         fi
     fi
     if [ -z "$DOWNLOAD_ONLY" ]; then
-        for deb in pkgs/*.deb; do
+        for deb in pkgs/$debdir/*.deb; do
             dpkg-deb -x "$deb" "$ROOT"
         done
-        if [ -z "$NO_DOWNLOAD" ]; then
-            rm -rf pkgs/
-        fi
     fi
 }
 
@@ -85,7 +80,7 @@ add_pkgs "
     libgcrypt20:amd64 \
     lvm2:amd64 \
     thin-provisioning-tools:amd64 \
-"
+" 'base'
 
 if [ -z "$DOWNLOAD_ONLY" ]; then
 
@@ -114,7 +109,7 @@ add_pkgs "
     busybox-static:amd64 \
     gdb:amd64 \
     strace:amd64 \
-"
+" 'debug'
 
 if [ -z "$DOWNLOAD_ONLY" ]; then
     # leave /usr/share here, it contains necessary stuff for gdb
