@@ -78,6 +78,7 @@ add_pkgs "
     liblz4-1:amd64 \
     liblzma5:amd64 \
     libgcrypt20:amd64 \
+    libtirpc3:amd64 \
     lvm2:amd64 \
     thin-provisioning-tools:amd64 \
 " 'base'
