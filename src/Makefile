@@ -68,8 +68,19 @@ $(ZFS_TOOLS): zfs.prepared
 	        --sbindir=/sbin \
 	        --libdir=/lib/"$(DEB_HOST_MULTIARCH)" \
 	        --with-zfsexecdir=/usr/lib/zfs-linux \
+	        --disable-pam \
+	        --disable-nls \
+	        --disable-sysvinit \
 	        --disable-systemd \
 	        --disable-pyzfs \
+	        --disable-debug \
+	        --disable-static \
+	        --without-python \
+	        --without-libiconv-prefix \
+	        --without-libintl-prefix \
+	        --without-gconv \
+	        --without-dracutdir \
+	        --without-pkgconfigdir \
 	        --with-config=user
 	# absolute path required for 'make install'
 	$(MAKE) -C $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE) install DESTDIR=$(PWD)/$(ZFS_TOOLS)
