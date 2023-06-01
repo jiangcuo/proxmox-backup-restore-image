@@ -110,6 +110,8 @@ fi
 
 echo "getting extra/debug dependencies"
 
+cp -a pkgs/base pkgs/debug
+
 # add debug helpers for debug initramfs, packages from above are included too
 add_pkgs "
     util-linux:amd64 \
