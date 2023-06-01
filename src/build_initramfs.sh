@@ -12,6 +12,7 @@ mkdir -p "$BUILDDIR"
 if [ -d pkgs ]; then
     echo "copying package cache into build-dir"
     cp -a pkgs "$BUILDDIR/pkgs"
+    NO_DOWNLOAD="1"
 fi
 cd "$BUILDDIR"
 mkdir "$ROOT"
