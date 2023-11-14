@@ -7,7 +7,7 @@ ZFSONLINUX_SUBMODULE=submodules/zfsonlinux
 KERNEL_SUBMODULE=submodules/ubuntu-kernel
 SHIM_DIR=init-shim-rs
 
-KERNEL_IMG=$(BUILDDIR)/bzImage
+KERNEL_IMG=$(BUILDDIR)/Image
 INITRAMFS_IMG=$(INITRAMFS_BUILDDIR)/initramfs.img
 INITRAMFS_IMG_DBG=$(INITRAMFS_BUILDDIR)/initramfs-debug.img
 
@@ -37,10 +37,10 @@ kernel.prepared: $(BUILDDIR).prepared
 	touch $@
 
 $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE).prepared: $(BUILDDIR).prepared
-	cd $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE); \
-	    for p in ../../patches/zfs/*.patch; do \
-	        patch -Np1 < $$p; \
-	    done
+#	cd $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE); \
+#	    for p in ../../patches/zfs/*.patch; do \
+#	        patch -Np1 < $$p; \
+#	    done
 	touch $@
 
 zfs.prepared: kernel.prepared $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE).prepared
@@ -59,7 +59,7 @@ zfs.prepared: kernel.prepared $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE).prepared
 kernel-img: $(KERNEL_IMG)
 $(KERNEL_IMG): zfs.prepared kernel.prepared
 	cd $(BUILDDIR)/$(KERNEL_SUBMODULE); $(MAKE)
-	mv $(BUILDDIR)/$(KERNEL_SUBMODULE)/arch/x86/boot/bzImage $(KERNEL_IMG)
+	mv $(BUILDDIR)/$(KERNEL_SUBMODULE)/arch/arm64/boot/Image $(KERNEL_IMG)
 
 $(ZFS_TOOLS): zfs.prepared
 	cd $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE); \
@@ -96,7 +96,7 @@ test-run: $(KERNEL_IMG) $(INITRAMFS_IMG)
 	# note: this will always fail since /proxmox-restore-daemon is not
 	# included in the initramfs, but it can be used to test the
 	# kernel/init-shim-rs builds
-	qemu-system-x86_64 -serial stdio -vnc none -enable-kvm \
+	qemu-system-aarch64 -serial stdio -vnc none \
 	    -kernel $(KERNEL_IMG) \
 	    -initrd $(INITRAMFS_IMG)
 

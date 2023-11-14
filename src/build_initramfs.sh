@@ -4,7 +4,7 @@ set -e
 
 ROOT="root"
 BUILDDIR="build/initramfs"
-INIT="../../init-shim-rs/target/x86_64-unknown-linux-gnu/release/init-shim-rs"
+INIT="../../init-shim-rs/target/aarch64-unknown-linux-gnu/release/init-shim-rs"
 
 echo "Using build dir: $BUILDDIR"
 rm -rf "$BUILDDIR"
@@ -69,20 +69,20 @@ fi
 echo "getting base dependencies"
 
 add_pkgs "
-    busybox:amd64 \
-    libstdc++6:amd64 \
-    libssl3:amd64 \
-    libacl1:amd64 \
-    libblkid1:amd64 \
-    libuuid1:amd64 \
-    zlib1g:amd64 \
-    libzstd1:amd64 \
-    liblz4-1:amd64 \
-    liblzma5:amd64 \
-    libgcrypt20:amd64 \
-    libtirpc3:amd64 \
-    lvm2:amd64 \
-    thin-provisioning-tools:amd64 \
+    busybox:arm64 \
+    libstdc++6:arm64 \
+    libssl3:arm64 \
+    libacl1:arm64 \
+    libblkid1:arm64 \
+    libuuid1:arm64 \
+    zlib1g:arm64 \
+    libzstd1:arm64 \
+    liblz4-1:arm64 \
+    liblzma5:arm64 \
+    libgcrypt20:arm64 \
+    libtirpc3:arm64 \
+    lvm2:arm64 \
+    thin-provisioning-tools:arm64 \
 " 'base'
 
 if [ -z "$DOWNLOAD_ONLY" ]; then
@@ -99,11 +99,11 @@ if [ -z "$DOWNLOAD_ONLY" ]; then
     rm -rf ${ROOT:?}/usr/share # contains only docs and debian stuff
     rm -rf ${ROOT:?}/usr/local/include # header files
     rm -rf ${ROOT:?}/usr/local/share # mostly ZFS tests
-    rm -f ${ROOT:?}/lib/x86_64-linux-gnu/*.a # static libraries
-    rm -f ${ROOT:?}/lib/x86_64-linux-gnu/*.la # libtool info files
+    rm -f ${ROOT:?}/lib/aarch64-linux-gnu/*.a # static libraries
+    rm -f ${ROOT:?}/lib/aarch64-linux-gnu/*.la # libtool info files
     strip -s  ${ROOT:?}/sbin/* ||true
     strip -s  ${ROOT:?}/usr/bin/* ||true
-    strip -g ${ROOT:?}/lib/x86_64-linux-gnu/*.so.* || true
+    strip -g ${ROOT:?}/lib/aarch64-linux-gnu/*.so.* || true
 
     make_cpio "initramfs.img"
 fi
@@ -114,9 +114,9 @@ cp -a pkgs/base pkgs/debug
 
 # add debug helpers for debug initramfs, packages from above are included too
 add_pkgs "
-    util-linux:amd64 \
-    gdb:amd64 \
-    strace:amd64 \
+    util-linux:arm64 \
+    gdb:arm64 \
+    strace:arm64 \
 " 'debug'
 
 if [ -z "$DOWNLOAD_ONLY" ]; then
