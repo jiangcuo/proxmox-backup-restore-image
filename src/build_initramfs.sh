@@ -4,7 +4,7 @@ set -e
 
 ROOT="root"
 BUILDDIR="build/initramfs"
-INIT="../../init-shim-rs/target/release/init-shim-rs"
+INIT="../../init-shim-rs/target/aarch64-unknown-linux-gnu/release/init-shim-rs"
 
 echo "Using build dir: $BUILDDIR"
 rm -rf "$BUILDDIR"
@@ -70,13 +70,13 @@ echo "getting base dependencies"
 
 add_pkgs "
     busybox:arm64 \
-   	util-linux:arm64 \
+    util-linux:arm64 \
     libstdc++6:arm64 \
     libssl3:arm64 \
     libacl1:arm64 \
     libblkid1:arm64 \
     libuuid1:arm64 \
-   	libcrypt1:arm64 \
+    libcrypt1:arm64 \
     zlib1g:arm64 \
     libzstd1:arm64 \
     liblz4-1:arm64 \
