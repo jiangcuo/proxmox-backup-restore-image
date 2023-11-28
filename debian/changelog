@@ -1,3 +1,9 @@
+proxmox-backup-restore-image (0.6.0) bookworm; urgency=medium
+
+  * update kernel to 6.5.11 and ZFS to 2.2.1
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 28 Nov 2023 17:34:25 +0100
+
 proxmox-backup-restore-image (0.5.1) bookworm; urgency=medium
 
   * build initramfs: strip (ZFS) binaries and libs after installing to reduce
