@@ -1,4 +1,4 @@
-From 7222e7424aab957f63b98853ea9fb30eec83666e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Stefan Reiter <s.reiter@proxmox.com>
 Date: Mon, 3 May 2021 11:13:10 +0200
 Subject: [PATCH] PBS-restore: halt machine on kernel panic
@@ -14,10 +14,10 @@ Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/kernel/panic.c b/kernel/panic.c
-index 332736a72a58..56339ae5165c 100644
+index ea1c5fcb2d19..c317ca992a26 100644
 --- a/kernel/panic.c
 +++ b/kernel/panic.c
-@@ -325,6 +325,9 @@ void panic(const char *fmt, ...)
+@@ -417,6 +417,9 @@ void panic(const char *fmt, ...)
  		}
  	}
  	if (panic_timeout != 0) {
@@ -27,6 +27,3 @@ index 332736a72a58..56339ae5165c 100644
  		/*
  		 * This will not be a clean reboot, with everything
  		 * shutting down.  But if there is a chance of
--- 
-2.20.1
-

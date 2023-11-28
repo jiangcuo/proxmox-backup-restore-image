@@ -6,6 +6,8 @@ Subject: [PATCH] remove reference to libudev
 since there's no command line flag I can see...
 
 Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+[ SI adapt to aebd94cc8541e0ec3b1de57edbd57c4280213089 ]
+Signed-off-by: Stoiko Ivanov <s.ivanov@proxmox.com>
 ---
  config/user-libudev.m4 | 17 -----------------
  config/user.m4         |  1 -
@@ -36,17 +38,14 @@ index 8c3c1d7e0..000000000
 -	])
 -])
 diff --git a/config/user.m4 b/config/user.m4
-index c22067551..1b6d3a24e 100644
+index 6ec27a5b2..46244f19b 100644
 --- a/config/user.m4
 +++ b/config/user.m4
-@@ -18,7 +18,6 @@ AC_DEFUN([ZFS_AC_CONFIG_USER], [
+@@ -14,7 +14,6 @@ AC_DEFUN([ZFS_AC_CONFIG_USER], [
+ 	AM_COND_IF([BUILD_LINUX], [
+ 		ZFS_AC_CONFIG_USER_UDEV
+ 		ZFS_AC_CONFIG_USER_SYSTEMD
+-		ZFS_AC_CONFIG_USER_LIBUDEV
+ 		ZFS_AC_CONFIG_USER_LIBUUID
  		ZFS_AC_CONFIG_USER_LIBBLKID
  	])
- 	ZFS_AC_CONFIG_USER_LIBTIRPC
--	ZFS_AC_CONFIG_USER_LIBUDEV
- 	ZFS_AC_CONFIG_USER_LIBCRYPTO
- 	ZFS_AC_CONFIG_USER_LIBAIO
- 	ZFS_AC_CONFIG_USER_CLOCK_GETTIME
--- 
-2.30.2
-

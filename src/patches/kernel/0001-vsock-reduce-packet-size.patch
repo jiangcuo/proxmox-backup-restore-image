@@ -1,4 +1,4 @@
-From a437d428733881f408b5d42eb75812600083cb75 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Stefan Reiter <s.reiter@proxmox.com>
 Date: Mon, 26 Apr 2021 14:08:36 +0200
 Subject: [PATCH] vsock: reduce packet size
@@ -19,10 +19,10 @@ Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/linux/virtio_vsock.h b/include/linux/virtio_vsock.h
-index dc636b727179..18c09ff72929 100644
+index c58453699ee9..62a609444e12 100644
 --- a/include/linux/virtio_vsock.h
 +++ b/include/linux/virtio_vsock.h
-@@ -9,7 +9,7 @@
+@@ -112,7 +112,7 @@ static inline size_t virtio_vsock_skb_len(struct sk_buff *skb)
  
  #define VIRTIO_VSOCK_DEFAULT_RX_BUF_SIZE	(1024 * 4)
  #define VIRTIO_VSOCK_MAX_BUF_SIZE		0xFFFFFFFFUL
@@ -31,6 +31,3 @@ index dc636b727179..18c09ff72929 100644
  
  enum {
  	VSOCK_VQ_RX     = 0, /* for host to guest data */
--- 
-2.20.1
-
