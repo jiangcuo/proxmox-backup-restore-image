@@ -1,2 +1,2 @@
-build/Image /usr/lib/aarch64-linux-gnu/proxmox-backup/file-restore/
-build/initramfs/initramfs.img /usr/lib/aarch64-linux-gnu/proxmox-backup/file-restore/
+build/Image /usr/lib/loongarch64-linux-gnu/proxmox-backup/file-restore/
+build/initramfs/initramfs.img /usr/lib/loongarch64-linux-gnu/proxmox-backup/file-restore/
