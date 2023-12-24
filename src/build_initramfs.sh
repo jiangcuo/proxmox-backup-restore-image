@@ -4,7 +4,7 @@ set -e
 
 ROOT="root"
 BUILDDIR="build/initramfs"
-INIT="../../init-shim-rs/target/aarch64-unknown-linux-gnu/release/init-shim-rs"
+INIT="../../init-shim-rs/target/loongarch64-unknown-linux-gnu/release/init-shim-rs"
 
 echo "Using build dir: $BUILDDIR"
 rm -rf "$BUILDDIR"
@@ -69,24 +69,24 @@ fi
 echo "getting base dependencies"
 
 add_pkgs "
-    busybox:arm64 \
-    util-linux:arm64 \
-    libstdc++6:arm64 \
-    libssl3:arm64 \
-    libacl1:arm64 \
-    libblkid1:arm64 \
-    libuuid1:arm64 \
-    libcrypt1:arm64 \
-    zlib1g:arm64 \
-    libzstd1:arm64 \
-    liblz4-1:arm64 \
-    liblzma5:arm64 \
-    libgcrypt20:arm64 \
-    libtirpc3:arm64 \
-    lvm2:arm64 \
-    thin-provisioning-tools:arm64 \
-    gdb:arm64 \
-    strace:arm64 \
+    busybox:loong64 \
+    util-linux:loong64 \
+    libstdc++6:loong64 \
+    libssl3:loong64 \
+    libacl1:loong64 \
+    libblkid1:loong64 \
+    libuuid1:loong64 \
+    libcrypt1:loong64 \
+    zlib1g:loong64 \
+    libzstd1:loong64 \
+    liblz4-1:loong64 \
+    liblzma5:loong64 \
+    libgcrypt20:loong64 \
+    libtirpc3:loong64 \
+    lvm2:loong64 \
+    thin-provisioning-tools:loong64 \
+    gdb:loong64 \
+    strace:loong64 \
 " 'base'
 
 if [ -z "$DOWNLOAD_ONLY" ]; then
@@ -103,11 +103,11 @@ if [ -z "$DOWNLOAD_ONLY" ]; then
     rm -rf ${ROOT:?}/usr/share # contains only docs and debian stuff
     rm -rf ${ROOT:?}/usr/local/include # header files
     rm -rf ${ROOT:?}/usr/local/share # mostly ZFS tests
-    rm -f ${ROOT:?}/lib/aarch64-linux-gnu/*.a # static libraries
-    rm -f ${ROOT:?}/lib/aarch64-linux-gnu/*.la # libtool info files
+    rm -f ${ROOT:?}/lib/loongarch64-linux-gnu/*.a # static libraries
+    rm -f ${ROOT:?}/lib/loongarch64-linux-gnu/*.la # libtool info files
     strip -s  ${ROOT:?}/sbin/* ||true
     strip -s  ${ROOT:?}/usr/bin/* ||true
-    strip -g ${ROOT:?}/lib/aarch64-linux-gnu/*.so.* || true
+    strip -g ${ROOT:?}/lib/loongarch64-linux-gnu/*.so.* || true
 
     make_cpio "initramfs.img"
 fi
@@ -118,9 +118,9 @@ cp -a pkgs/base pkgs/debug
 
 # add debug helpers for debug initramfs, packages from above are included too
 add_pkgs "
-    util-linux:arm64 \
-    gdb:arm64 \
-    strace:arm64 \
+    util-linux:loong64 \
+    gdb:loong64 \
+    strace:loong64 \
 " 'debug'
 
 if [ -z "$DOWNLOAD_ONLY" ]; then
