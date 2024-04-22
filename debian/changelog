@@ -1,3 +1,9 @@
+proxmox-backup-restore-image (0.6.1) bookworm; urgency=medium
+
+  * switch to ntfs3 kernel driver
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 22 Apr 2024 16:45:01 +0200
+
 proxmox-backup-restore-image (0.6.0) bookworm; urgency=medium
 
   * update kernel to 6.5.11 and ZFS to 2.2.1
