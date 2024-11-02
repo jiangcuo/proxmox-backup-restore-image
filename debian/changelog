@@ -1,3 +1,11 @@
+proxmox-backup-restore-image (0.6.1+port1) bookworm; urgency=medium
+
+  * update kernel to OLK-6.6
+
+  * update ZFS to 2.2.6
+
+ -- Jiangcuo <jiangcuo@bingsin.com>  Sat, 02 Nov 2024 21:00:13 +0800
+
 proxmox-backup-restore-image (0.6.1) bookworm; urgency=medium
 
   * switch to ntfs3 kernel driver
