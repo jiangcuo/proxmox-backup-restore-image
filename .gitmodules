@@ -3,4 +3,4 @@
 	url = git://git.proxmox.com/git/mirror_zfs.git
 [submodule "src/submodules/ubuntu-kernel"]
 	path = src/submodules/ubuntu-kernel
-	url = git://git.proxmox.com/git/mirror_ubuntu-kernels.git
+	url = https://gitee.com/openeuler/kernel

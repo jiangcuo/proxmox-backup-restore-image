@@ -34,7 +34,7 @@ Standards-Version: 4.5.1
 Homepage: https://www.proxmox.com
 
 Package: proxmox-backup-restore-image
-Architecture: amd64
+Architecture: linux-any
 Recommends: proxmox-backup-file-restore,
 Depends: ${misc:Depends},
 Description: Kernel/initramfs images for Proxmox Backup single-file restore.
@@ -43,7 +43,7 @@ Description: Kernel/initramfs images for Proxmox Backup single-file restore.
  the proxmox-backup-file-restore package, which provide the actual tools.
 
 Package: proxmox-backup-restore-image-debug
-Architecture: amd64
+Architecture: linux-any
 Depends: proxmox-backup-restore-image, ${misc:Depends},
 Description: Debug initramfs image for Proxmox Backup single-file restore.
  Not required for production use, only useful for manual inspection of file
