@@ -17,8 +17,8 @@ ZFSONLINUX_SUBMODULE=src/submodules/zfsonlinux
 KERNEL_SUBMODULE=src/submodules/ubuntu-kernel
 
 submodules.prepared:
-#	git submodule update --init $(KERNEL_SUBMODULE)
-#	git submodule update --init --recursive $(ZFSONLINUX_SUBMODULE)
+	git submodule update --init --depth=1 $(KERNEL_SUBMODULE)
+	git submodule update --init --depth=1 --recursive $(ZFSONLINUX_SUBMODULE)
 	touch $@
 
 .PHONY: builddir
