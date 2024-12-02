@@ -1,3 +1,9 @@
+proxmox-backup-restore-image (0.6.1+port2) bookworm; urgency=medium
+  
+  * fix submodule path 
+
+ -- Jiangcuo <jiangcuo@bingsin.com>  Mon, 02 Dec 2024 18:06:37 +0800
+
 proxmox-backup-restore-image (0.6.1+port1) bookworm; urgency=medium
 
   * update kernel to OLK-6.6

@@ -1,6 +1,6 @@
 [submodule "submodules/zfsonlinux"]
 	path = src/submodules/zfsonlinux
-	url = ../mirror_zfs.git
+	url = https://github.com/openzfs/zfs
 [submodule "src/submodules/ubuntu-kernel"]
 	path = src/submodules/ubuntu-kernel
 	url = https://gitee.com/openeuler/kernel
