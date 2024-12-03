@@ -9,29 +9,31 @@ SHIM_DIR=init-shim-rs
 
 
 ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+MULTILIB := $(shell dpkg-architecture -qDEB_BUILD_MULTIARCH)
 
 ifeq ($(ARCH),amd64)
 KERNEL_IMG := bzImage
 TEST_MACHINE := pc
+KERNEL_DIR := x86
+INSTALL_IMG := bzImage
 else
-KERNEL_IMG := Image
 TEST_MACHINE := virt
-endif
-
-ifeq ($(ARCH),amd64)
-KERNEL_DIR = x86
+INSTALL_IMG := Image
 endif
 
 ifeq ($(ARCH),arm64)
-KERNEL_DIR = arm64
+KERNEL_IMG := Image
+KERNEL_DIR := arm64
 endif
 
-ifeq ($(ARCH),loongarch64)
-KERNEL_DIR = loongarch
+ifeq ($(ARCH),loong64)
+KERNEL_DIR := loongarch
+KERNEL_IMG := vmlinuz
 endif
 
 ifeq ($(ARCH),riscv64)
-KERNEL_DIR = riscv
+KERNEL_IMG := Image
+KERNEL_DIR := riscv
 endif
 
 
@@ -47,10 +49,13 @@ RUST_SRC=$(wildcard $(SHIM_DIR)/**/*.rs) $(SHIM_DIR)/Cargo.toml
 all: $(KERNEL_IMG) $(INITRAMFS_IMG_DBG)
 
 $(BUILDDIR).prepared: $(CONFIG)
+	echo "build/$(INSTALL_IMG)  /usr/lib/$(MULTILIB)/proxmox-backup/file-restore/" > debian/install
+	echo "build/initramfs/initramfs.img /usr/lib/$(MULTILIB)/proxmox-backup/file-restore/" >> debian/install
+	echo "build/initramfs/initramfs-debug.img /usr/lib/$(MULTILIB)/proxmox-backup/file-restore/" > debian/proxmox-backup-restore-image-debug.install
 	rm -rf $(BUILDDIR)
 	mkdir -p $(BUILDDIR)
 	cp -a submodules patches $(BUILDDIR)/
-	cp $(CONFIG) $(BUILDDIR)/$(KERNEL_SUBMODULE)/.config
+	cp $(CONFIG)-$(ARCH) $(BUILDDIR)/$(KERNEL_SUBMODULE)/.config
 	cd $(BUILDDIR)/$(KERNEL_SUBMODULE); \
 	    for p in ../../patches/kernel/*.patch; do \
 	        echo "applying patch $$p"; patch -Np1 < $$p; \
@@ -85,7 +90,7 @@ zfs.prepared: kernel.prepared $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE).prepared
 kernel-img: $(KERNEL_IMG)
 $(KERNEL_IMG): zfs.prepared kernel.prepared
 	cd $(BUILDDIR)/$(KERNEL_SUBMODULE); $(MAKE)
-	mv $(BUILDDIR)/$(KERNEL_SUBMODULE)/arch/$(KERNEL_DIR)/boot/$(KERNEL_IMG) $(BUILDDIR)/$(KERNEL_IMG)
+	mv $(BUILDDIR)/$(KERNEL_SUBMODULE)/arch/$(KERNEL_DIR)/boot/$(KERNEL_IMG) $(BUILDDIR)/$(INSTALL_IMG)
 
 $(ZFS_TOOLS): zfs.prepared
 	cd $(BUILDDIR)/$(ZFSONLINUX_SUBMODULE); \
