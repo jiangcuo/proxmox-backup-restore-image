@@ -28,7 +28,7 @@ endif
 
 ifeq ($(ARCH),loong64)
 KERNEL_DIR := loongarch
-KERNEL_IMG := vmlinuz
+KERNEL_IMG := vmlinux.bin
 endif
 
 ifeq ($(ARCH),riscv64)
