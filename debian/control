@@ -1,7 +1,7 @@
 Source: proxmox-backup-restore-image
 Section: admin
 Priority: optional
-Maintainer: Proxmox Support Team <support@proxmox.com>
+Maintainer: Jiangcuo <jiangcuo@lierfang.com>
 Build-Depends: apt-rdepends,
                asciidoc-base,
                automake,

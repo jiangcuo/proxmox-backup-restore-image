@@ -1,3 +1,9 @@
+proxmox-backup-restore-image (0.6.1+port3) bookworm; urgency=medium
+
+  * bump version to 0.6.1+port3
+
+ -- Jiangcuo <jiangcuo@lierfang.com>  Sun, 02 Feb 2025 20:31:14 +0800
+
 proxmox-backup-restore-image (0.6.1+port2) bookworm; urgency=medium
   
   * fix submodule path 
