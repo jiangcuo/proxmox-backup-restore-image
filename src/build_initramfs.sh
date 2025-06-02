@@ -15,7 +15,12 @@ if [ -d pkgs ]; then
     NO_DOWNLOAD="1"
 fi
 cd "$BUILDDIR"
-mkdir "$ROOT"
+mkdir -p "$ROOT/usr"
+
+for dir in "bin" "sbin" "lib" "lib32" "lib64" ; do
+    mkdir "$ROOT/usr/$dir"
+    ln -sr "$ROOT/usr/$dir" "$ROOT/$dir"
+done
 
 # adds necessary packages to initramfs build root folder
 add_pkgs() {
@@ -44,7 +49,7 @@ add_pkgs() {
     fi
     if [ -z "$DOWNLOAD_ONLY" ]; then
         for deb in pkgs/$debdir/*.deb; do
-            dpkg-deb -x "$deb" "$ROOT"
+            dpkg-deb --fsys-tarfile "$deb" |tar -C "$ROOT" --keep-directory-symlink -x
         done
     fi
 }
