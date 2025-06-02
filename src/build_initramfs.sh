@@ -104,6 +104,7 @@ if [ -z "$DOWNLOAD_ONLY" ]; then
     rm -rf ${ROOT:?}/usr/share # contains only docs and debian stuff
     rm -rf ${ROOT:?}/usr/local/include # header files
     rm -rf ${ROOT:?}/usr/local/share # mostly ZFS tests
+    rm -rf ${ROOT:?}/usr/lib/zfs-linux # zpool.d/zed.d snippets, zpool_influxdb
     rm -f ${ROOT:?}/lib/x86_64-linux-gnu/*.a # static libraries
     rm -f ${ROOT:?}/lib/x86_64-linux-gnu/*.la # libtool info files
     strip -s  ${ROOT:?}/sbin/* ||true
