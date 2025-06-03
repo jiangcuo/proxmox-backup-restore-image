@@ -2,6 +2,7 @@ PACKAGE=proxmox-restore-vm-data
 
 BUILDDIR=build
 INITRAMFS_BUILDDIR=build/initramfs
+PWD=$(shell pwd)
 
 ZFSONLINUX_SUBMODULE=submodules/zfsonlinux
 KERNEL_SUBMODULE=submodules/ubuntu-kernel
