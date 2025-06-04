@@ -1,3 +1,15 @@
+proxmox-backup-restore-image (0.7.0) bookworm; urgency=medium
+
+  * update ZFS to 2.3.2
+
+  * update kernel to Ubuntu-6.14.0-22.22
+
+  * kernel: enable bachefs and exfat file systems
+
+  * kernel: enable additional f2fs, ntfs and vfat options
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 04 Jun 2025 10:51:10 +0200
+
 proxmox-backup-restore-image (0.6.1) bookworm; urgency=medium
 
   * switch to ntfs3 kernel driver
