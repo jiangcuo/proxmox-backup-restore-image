@@ -36,8 +36,11 @@ add_pkgs() {
         # debconf and gcc are unnecessary, libboost-regex doesn't install on bullseye
         DEPS=$(echo "$DEPS" |\
             sed -E 's/debconf(-2\.0)?//g' |\
-            sed -E 's/libboost-regex//g' |\
-            sed -E 's/gcc-.{1,2}-base//g')
+            sed -E 's/libboost-regex([[:digit:]]\.[[:digit:]]+)?//g' |\
+            sed -E 's/gcc-.{1,2}-base//g' |\
+            sed -E 's/mime-support//g' |\
+            sed -E 's/perlapi-5\.[[:digit:]]+\.[[:digit:]]+//g' \
+        )
 
         if [ ! -d "pkgs/$debdir" ]; then
             mkdir -p "pkgs/$debdir"
