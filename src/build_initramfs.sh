@@ -29,7 +29,7 @@ add_pkgs() {
     if [ -z "$NO_DOWNLOAD" ]; then
         DEPS=""
         for pkg in $1; do
-            printf " getting reverse dependencies for '%s'" "$pkg"
+            printf " getting reverse dependencies for '%s'\n" "$pkg"
             LOCAL_DEPS=$(apt-rdepends -f Depends -s Depends "$pkg" | grep -v '^ ')
             DEPS="$DEPS $LOCAL_DEPS"
         done
