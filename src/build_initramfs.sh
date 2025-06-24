@@ -76,7 +76,7 @@ echo "getting base dependencies"
 add_pkgs "
     busybox:amd64 \
     libstdc++6:amd64 \
-    libssl3:amd64 \
+    libssl3t64:amd64 \
     libacl1:amd64 \
     libblkid1:amd64 \
     libuuid1:amd64 \
@@ -85,7 +85,7 @@ add_pkgs "
     liblz4-1:amd64 \
     liblzma5:amd64 \
     libgcrypt20:amd64 \
-    libtirpc3:amd64 \
+    libtirpc3t64:amd64 \
     lvm2:amd64 \
     thin-provisioning-tools:amd64 \
 " 'base'
