@@ -1,3 +1,13 @@
+proxmox-backup-restore-image (1.0.0) trixie; urgency=medium
+
+  * re-build for Debian 13 "Trixie" based Proxmox VE 9.
+
+  * update ZFS to 2.3.3 release.
+
+  * update kernel to Ubuntu-6.14.0-24.24 based on 6.14.6.
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 23 Jun 2025 14:29:41 +0200
+
 proxmox-backup-restore-image (0.7.0) bookworm; urgency=medium
 
   * update ZFS to 2.3.2
