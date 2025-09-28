@@ -15,7 +15,12 @@ if [ -d pkgs ]; then
     NO_DOWNLOAD="1"
 fi
 cd "$BUILDDIR"
-mkdir "$ROOT"
+mkdir -p "$ROOT/usr"
+
+for dir in "bin" "sbin" "lib" "lib32" "lib64" ; do
+    mkdir "$ROOT/usr/$dir"
+    ln -sr "$ROOT/usr/$dir" "$ROOT/$dir"
+done
 
 # adds necessary packages to initramfs build root folder
 add_pkgs() {
@@ -24,15 +29,18 @@ add_pkgs() {
     if [ -z "$NO_DOWNLOAD" ]; then
         DEPS=""
         for pkg in $1; do
-            printf " getting reverse dependencies for '%s'" "$pkg"
+            printf " getting reverse dependencies for '%s'\n" "$pkg"
             LOCAL_DEPS=$(apt-rdepends -f Depends -s Depends "$pkg" | grep -v '^ ')
             DEPS="$DEPS $LOCAL_DEPS"
         done
         # debconf and gcc are unnecessary, libboost-regex doesn't install on bullseye
         DEPS=$(echo "$DEPS" |\
             sed -E 's/debconf(-2\.0)?//g' |\
-            sed -E 's/libboost-regex//g' |\
-            sed -E 's/gcc-.{1,2}-base//g')
+            sed -E 's/libboost-regex([[:digit:]]\.[[:digit:]]+)?//g' |\
+            sed -E 's/gcc-.{1,2}-base//g' |\
+            sed -E 's/mime-support//g' |\
+            sed -E 's/perlapi-5\.[[:digit:]]+\.[[:digit:]]+//g' \
+        )
 
         if [ ! -d "pkgs/$debdir" ]; then
             mkdir -p "pkgs/$debdir"
@@ -44,7 +52,7 @@ add_pkgs() {
     fi
     if [ -z "$DOWNLOAD_ONLY" ]; then
         for deb in pkgs/$debdir/*.deb; do
-            dpkg-deb -x "$deb" "$ROOT"
+            dpkg-deb --fsys-tarfile "$deb" |tar -C "$ROOT" --keep-directory-symlink -x
         done
     fi
 }
@@ -71,7 +79,7 @@ echo "getting base dependencies"
 add_pkgs "
     busybox \
     libstdc++6 \
-    libssl3 \
+    libssl3t64 \
     libacl1 \
     libblkid1 \
     libuuid1 \
@@ -80,7 +88,7 @@ add_pkgs "
     liblz4-1 \
     liblzma5 \
     libgcrypt20 \
-    libtirpc3 \
+    libtirpc3t64 \
     lvm2 \
     thin-provisioning-tools \
 " 'base'

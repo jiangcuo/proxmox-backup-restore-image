@@ -12,6 +12,7 @@ Build-Depends: apt-rdepends,
                debhelper-compat (= 13),
                dh-cargo,
                dh-python,
+               fakeroot,
                flex,
                gcc (>= 8.3.0-6),
                git,
@@ -19,8 +20,13 @@ Build-Depends: apt-rdepends,
                libdw-dev,
                libelf-dev,
                librust-anyhow-1+default-dev,
-               librust-nix-0.26+default-dev,
+               librust-nix-0.29+default-dev,
+               librust-nix-0.29+fs-dev,
+               librust-nix-0.29+mount-dev,
+               librust-nix-0.29+process-dev,
+               librust-nix-0.29+reboot-dev,
                libssl-dev,
+               libtirpc-dev,
                libtool,
                lintian,
                perl,
@@ -37,6 +43,7 @@ Package: proxmox-backup-restore-image
 Architecture: linux-any
 Recommends: proxmox-backup-file-restore,
 Depends: ${misc:Depends},
+Breaks: proxmox-backup-file-restore (<< 3.4.2-1)
 Description: Kernel/initramfs images for Proxmox Backup single-file restore.
  Preconfigured images used as base for single file restore of Proxmox Backup
  Server snapshots. Not really useful on their own, so best used together with
@@ -45,6 +52,7 @@ Description: Kernel/initramfs images for Proxmox Backup single-file restore.
 Package: proxmox-backup-restore-image-debug
 Architecture: linux-any
 Depends: proxmox-backup-restore-image, ${misc:Depends},
+Breaks: proxmox-backup-file-restore (<< 3.4.2-1)
 Description: Debug initramfs image for Proxmox Backup single-file restore.
  Not required for production use, only useful for manual inspection of file
  restore VMs. Includes busybox and gdb.
