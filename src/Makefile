@@ -1,3 +1,4 @@
+include /usr/share/dpkg/architecture.mk
 PACKAGE=proxmox-restore-vm-data
 
 BUILDDIR=build
@@ -10,7 +11,7 @@ SHIM_DIR=init-shim-rs
 
 
 ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
-MULTILIB := $(shell dpkg-architecture -qDEB_BUILD_MULTIARCH)
+MULTILIB := $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 ifeq ($(ARCH),amd64)
 KERNEL_IMG := bzImage
@@ -128,7 +129,7 @@ test-run: $(KERNEL_IMG) $(INITRAMFS_IMG)
 	# note: this will always fail since /proxmox-restore-daemon is not
 	# included in the initramfs, but it can be used to test the
 	# kernel/init-shim-rs builds
-	qemu-system-$(ARCH) -serial stdio -vnc none -accel tcg \
+	qemu-system-$(DEB_HOST_GNU_CPU) -serial stdio -vnc none -accel tcg \
 	    -kernel $(KERNEL_IMG) \
 	    -initrd $(INITRAMFS_IMG) \
 	    -machine $(TEST_MACHINE)
